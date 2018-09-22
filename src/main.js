@@ -6,6 +6,10 @@ import store from './store'
 import Buefy from 'buefy'
 
 Vue.use(Buefy)
+import 'buefy/dist/buefy.css'
+
+import Chat from 'vue-beautiful-chat'
+Vue.use(Chat)
 
 Vue.config.productionTip = false
 

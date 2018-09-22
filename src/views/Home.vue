@@ -1,8 +1,11 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <div class="field">
+    <b-checkbox v-model="checkboxCustom"
+                true-value="Yes"
+                false-value="No">
+                {{ checkboxCustom }}
+            </b-checkbox>
+        </div>
 </template>
 
 <script>
