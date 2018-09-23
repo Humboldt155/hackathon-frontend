@@ -1,11 +1,9 @@
 <template>
-  <div class="about">
-    <b-checkbox v-model="checkbox">
-                {{ checkbox }}
-            </b-checkbox>
+  <div>
+
+
     <beautiful-chat
       :participants="participants"
-      :titleImageUrl="titleImageUrl"
       :onMessageWasSent="onMessageWasSent"
       :messageList="messageList"
       :newMessagesCount="newMessagesCount"
@@ -22,7 +20,7 @@
 
 <script>
   export default {
-  name: 'app',
+  name: 'sccistant',
   data() {
     return {
       participants: [
@@ -32,7 +30,6 @@
           imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
         }
       ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
-      titleImageUrl: '../../assets/logo.png',
       messageList: [
           { type: 'text', author: `me`, data: { text: `Say yes!` } },
           { type: 'text', author: `user1`, data: { text: `No.` } },
