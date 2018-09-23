@@ -23,6 +23,8 @@
   name: 'sccistant',
   data() {
     return {
+      active_clients: [],
+      interval: null,
       participants: [
         {
           id: 'user1',
@@ -89,7 +91,19 @@
     closeChat () {
       // called when the user clicks on the botton to close the chat
       this.isChatOpen = false
+    },
+    loadData: function () {
+      this.$store.commit('assistant/getActiveClients')
+      this.active_clients = this.$store.state.assistant.active_clients
     }
+  },
+  // функция запускается каждые 2 секунды, обновляя список клиентов
+  mounted: function () {
+    this.$nextTick(function () {
+      window.setInterval(() => {
+        this.loadData()
+      }, 10000)
+    })
   }
 }
 </script>

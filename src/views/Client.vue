@@ -95,7 +95,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
       },
       computed: {
         clientPage() {
-          return this.$store.state.client_page
+          return this.$store.state.client.client_page
         }
       }
   }
