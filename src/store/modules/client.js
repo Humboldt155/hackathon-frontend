@@ -3,7 +3,7 @@
 // initial state
 // shape: [{ id, quantity }]
 const state = {
-    client_page: 'https://leroymerlin.ru/catalogue/search/?q=15082555'
+    client_page: 'https://leroymerlin.ru/catalogue/search/?q=81945552'
 }
 
 // getters

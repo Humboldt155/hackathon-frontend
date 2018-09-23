@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/client">Client</router-link> |
-      <router-link to="/assistant">Assistant</router-link>
-    </div>
+      <!--<router-link to="/client">Client</router-link> |-->
+      <!--<router-link to="/assistant">Assistant</router-link>-->
     <router-view/>
   </div>
 </template>

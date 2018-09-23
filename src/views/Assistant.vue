@@ -1,7 +1,83 @@
 <template>
   <div>
-
-
+      <br>
+      <div class="columns">
+          <div class="column is-one-fifth">
+              <div class="tile is-ancestor">
+                  <div class="tile is-vertical is-parent">
+                    <div class="tile is-child box">
+<!------------------------------------------ СПИСОК КЛИЕНТОВ  ---------------------------------->
+                        <p class="subtitle">Conversations</p>
+                        <b-table
+                            :data="active_clients"
+                            :columns="clients_columns"
+                            :selected.sync="selected"
+                            :focusable=false
+                            :bordered=false
+                        >
+                        </b-table>
+                    </div>
+<!------------------------------------------ КОРЗИНА АКТИВНОГО КЛИЕНТА  ---------------------------------->
+                    <div class="tile is-child box">
+                      <p class="subtitle">{{ current_client.name.concat("\'s") }} basket</p>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          <div class="column">
+<!------------------------------------------ ДАННЫЕ ОБ АКТИВНОМ КЛИЕНТЕ  ---------------------------------->
+              <nav class="level">
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Name</p>
+                      <p class="title is-5">{{ current_client.name }}</p>
+                    </div>
+                   </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Sity</p>
+                      <p class="title is-5">{{ current_client.Sity }}</p>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Favorite store</p>
+                      <p class="title is-5">{{ current_client.favorite_shop }}</p>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Quartile</p>
+                      <p class="title is-5">{{ current_client.quartile }}</p>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Email</p>
+                      <p class="title is-5">{{ current_client.email }}</p>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Telephone</p>
+                      <p class="title is-5">{{ current_client.telephone }}</p>
+                        <a class="button is-rounded is-primary">
+                            <b-icon
+                                icon="phone-forward"
+                                size="is-small">
+                            </b-icon>
+                        </a>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Card №</p>
+                      <p class="title is-6">{{ current_client.card }}</p>
+                    </div>
+                  </div>
+                </nav>
+          </div>
+      </div>
     <beautiful-chat
       :participants="participants"
       :onMessageWasSent="onMessageWasSent"
@@ -23,13 +99,12 @@
   name: 'sccistant',
   data() {
     return {
-      active_clients: [],
       interval: null,
       participants: [
         {
           id: 'user1',
           name: 'Veronika',
-          imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
+          imageUrl: ''
         }
       ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
       messageList: [
@@ -47,11 +122,11 @@
       showTypingIndicator: '', // when set to a value matching the participant.id it shows the typing indicator for the specific user
       colors: {
         header: {
-          bg: '#5fbd5f',
+          bg: '#41c065',
           text: '#ffffff'
         },
         launcher: {
-          bg: '#5fbd5f'
+          bg: '#41c065'
         },
         messageList: {
           bg: '#ffffff'
@@ -61,7 +136,7 @@
           text: '#222222'
         },
         receivedMessage: {
-          bg: '#5FBD5F',
+          bg: '#41c065',
           text: '#ffffff'
         },
         userInput: {
@@ -69,7 +144,14 @@
           text: '#565867'
         }
       }, // specifies the color scheme for the component
-      alwaysScrollToBottom: false // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+      alwaysScrollToBottom: false, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+      clients_columns: [
+          {
+              field: 'name',
+              label: ''
+          }
+      ],
+      selected: null
     }
   },
   methods: {
@@ -94,16 +176,43 @@
     },
     loadData: function () {
       this.$store.commit('assistant/getActiveClients')
-      this.active_clients = this.$store.state.assistant.active_clients
+    },
+    setClient (username) {
+      this.$store.commit('assistant/setClient', username)
     }
   },
-  // функция запускается каждые 2 секунды, обновляя список клиентов
-  mounted: function () {
-    this.$nextTick(function () {
-      window.setInterval(() => {
-        this.loadData()
-      }, 10000)
-    })
-  }
+      // функция запускается каждые 2 секунды, обновляя список клиентов
+      mounted: function () {
+        this.$nextTick(function () {
+          window.setInterval(() => {
+            this.loadData()
+          }, 4000)
+        })
+      },
+      computed: {
+        active_clients() {
+            try {
+				if (this.selected !== null) {
+                this.setClient(this.selected.username)
+            }
+			} catch (error) {
+				console.log(error);
+            }
+          let clients = this.$store.state.assistant.active_clients
+          this.selected = clients.filter(client => client.username === this.$store.state.assistant.current_client.username)[0]
+          return this.$store.state.assistant.active_clients
+        },
+        current_client() {
+            let c_client = this.$store.state.assistant.current_client
+            this.participants = [
+                {
+                  id: c_client.username,
+                  name: c_client.name,
+                  imageUrl: ''
+                }
+              ]
+            return c_client
+        }
+      }
 }
 </script>

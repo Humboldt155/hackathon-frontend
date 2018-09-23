@@ -28,18 +28,21 @@ import HelloWorld from '@/components/HelloWorld.vue'
               participants: [
                   {
                       id: 'user1',
-                      name: 'Veronika',
+                      name: 'Artem',
                       imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
                   }
               ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
               messageList: [
+                  {type: 'text', author: `me`, data: {text: `'Hi, Artem! I try to buy a pillow, but it is not awailable on stock(( May you solve my problem?'`}},
+                  {type: 'text', author: `user1`, data: {text: `Do you meen this one?`}},
+                  {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '81945552'}},
+                  {type: 'text', author: `me`, data: {text: `Exactly!`}},
+                  {type: 'text', author: `user1`, data: {text: 'Wait a minute, please'}},
+                  {type: 'text', author: `user1`, data: {text: 'Unfortunately, there are no such pillows on stock(('}},
+                  {type: 'text', author: `user1`, data: {text: 'But there are some very similar available. Would you like to see?'}},
+                  {type: 'text', author: `user1`, data: {text: 'Yes, sure'}},
                   {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                  {type: 'text', author: `user1`, data: {text: `No.`}},
-                  {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                  {type: 'text', author: `user1`, data: {text: `No.`}},
-                  {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                  {type: 'text', author: `user1`, data: {text: `No.`}},
-                  {type: 'text', author: `me`, data: {text: `Say yes!`}},
+                  {type: 'text', author: `user1`, data: {text: `Check this one`}},
                   {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '17926555'}}
               ], // the list of the messages to show, can be paginated and adjusted dynamically
               newMessagesCount: 0,
