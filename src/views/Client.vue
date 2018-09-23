@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iframe src="https://leroymerlin.ru/catalogue/search/?q=15082555" width="100%" height="800px" frameborder="1"> </iframe>
+    <iframe :src="clientPage" width="100%" height="800px" frameborder="1"> </iframe>
       <beautiful-chat
       :participants="participants"
       :onMessageWasSent="onMessageWasSent"
@@ -40,7 +40,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
                   {type: 'text', author: `me`, data: {text: `Say yes!`}},
                   {type: 'text', author: `user1`, data: {text: `No.`}},
                   {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                  {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '12345678'}}
+                  {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '17926555'}}
               ], // the list of the messages to show, can be paginated and adjusted dynamically
               newMessagesCount: 0,
               isChatOpen: true, // to determine whether the chat window should be open or closed
@@ -92,6 +92,11 @@ import HelloWorld from '@/components/HelloWorld.vue'
               // called when the user clicks on the botton to close the chat
               this.isChatOpen = false
           }
+      },
+      computed: {
+        clientPage() {
+          return this.$store.state.client_page
+        }
       }
   }
 </script>
