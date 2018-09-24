@@ -5,9 +5,9 @@
           <div class="column is-one-fifth">
               <div class="tile is-ancestor">
                   <div class="tile is-vertical is-parent">
-                    <div class="tile is-child box">
+                    <div class="tile is-child box" style="background-color: #f9f9f9">
 <!------------------------------------------ СПИСОК КЛИЕНТОВ  ---------------------------------->
-                        <p class="subtitle">Conversations</p>
+                        <p class="title is-4">CLIENTS</p>
                         <b-table
                             :data="active_clients"
                             :columns="clients_columns"
@@ -20,62 +20,101 @@
 <!------------------------------------------ КОРЗИНА АКТИВНОГО КЛИЕНТА  ---------------------------------->
                     <div class="tile is-child box">
                       <p class="subtitle">{{ current_client.name.concat("\'s") }} basket</p>
+                        <table class="table">
+                            <tbody>
+                                <tr v-for="item in current_basket">
+                                    <td>{{ item.product_id }}</td>
+                                    <td>
+                                        <img :src="'https://res.cloudinary.com/lmru/image/upload/w_50,h_50,c_pad,b_white,d_photoiscoming.png/LMCode/'.concat(item.product_id, '.jpg')" alt="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                   </div>
                 </div>
           </div>
           <div class="column">
+
+              <div class="tile is-ancestor">
+                  <div class="tile is-vertical is-parent">
+                      <div class="tile is-child box">
 <!------------------------------------------ ДАННЫЕ ОБ АКТИВНОМ КЛИЕНТЕ  ---------------------------------->
-              <nav class="level">
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Name</p>
-                      <p class="title is-5">{{ current_client.name }}</p>
-                    </div>
-                   </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Sity</p>
-                      <p class="title is-5">{{ current_client.Sity }}</p>
-                    </div>
+                          <nav class="level">
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Name</p>
+                                  <p class="title is-5">{{ current_client.name }}</p>
+                                </div>
+                               </div>
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Sity</p>
+                                  <p class="title is-5">{{ current_client.Sity }}</p>
+                                </div>
+                              </div>
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Favorite store</p>
+                                  <p class="title is-5">{{ current_client.favorite_shop }}</p>
+                                </div>
+                              </div>
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Quartile</p>
+                                  <p class="title is-5">{{ current_client.quartile }}</p>
+                                </div>
+                              </div>
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Email</p>
+                                  <p class="title is-5">{{ current_client.email }}</p>
+                                </div>
+                              </div>
+                              <div class="level-item has-text-centered">
+                                <div>
+                                  <p class="heading">Telephone</p>
+                                  <p class="title is-5">{{ current_client.telephone }}</p>
+                                    <a class="button is-rounded is-primary">
+                                        <b-icon
+                                            icon="phone-forward"
+                                            size="is-small">
+                                        </b-icon>
+                                    </a>
+                                </div>
+                              </div>
+                              <div class="level-item has-text-centered">
+                                  <div>
+                                      <p class="heading">Card №</p>
+                                      <p class="title is-6">{{ current_client.card }}</p>
+                                  </div>
+                              </div>
+                          </nav>
+                      </div>
+                      <div class="tile is-child box">
+                          <b-tabs v-model="activeTab">
+                              <b-tab-item label="Product">
+                                  <product></product>
+                              </b-tab-item>
+                              <b-tab-item label="Client">
+                                  <client-info></client-info>
+                              </b-tab-item>
+                              <b-tab-item label="Project">
+                                  <project></project>
+                              </b-tab-item>
+                              <b-tab-item label="Map">
+                                  <map></map>
+                              </b-tab-item>
+                              <b-tab-item label="Proposal">
+                                  <statistics></statistics>
+                              </b-tab-item>
+                              <b-tab-item label="Statistic & History">
+                                  <statistics></statistics>
+                              </b-tab-item>
+                          </b-tabs>
+                      </div>
                   </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Favorite store</p>
-                      <p class="title is-5">{{ current_client.favorite_shop }}</p>
-                    </div>
-                  </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Quartile</p>
-                      <p class="title is-5">{{ current_client.quartile }}</p>
-                    </div>
-                  </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Email</p>
-                      <p class="title is-5">{{ current_client.email }}</p>
-                    </div>
-                  </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Telephone</p>
-                      <p class="title is-5">{{ current_client.telephone }}</p>
-                        <a class="button is-rounded is-primary">
-                            <b-icon
-                                icon="phone-forward"
-                                size="is-small">
-                            </b-icon>
-                        </a>
-                    </div>
-                  </div>
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Card №</p>
-                      <p class="title is-6">{{ current_client.card }}</p>
-                    </div>
-                  </div>
-                </nav>
+              </div>
           </div>
       </div>
     <beautiful-chat
@@ -95,6 +134,13 @@
 </template>
 
 <script>
+
+import Product from './Product.vue'
+import ClientInfo from "./ClientInfo";
+import Project from "./Project";
+import Statistics from "./Statistics";
+import Proposal from "./Proposal";
+
   export default {
   name: 'sccistant',
   data() {
@@ -212,7 +258,19 @@
                 }
               ]
             return c_client
+        },
+        current_basket() {
+            let c_client = this.$store.state.assistant.current_client
+            let baskets = this.$store.state.assistant.baskets
+            return baskets[c_client.username]
         }
+      },
+      components: {
+          Proposal,
+          Statistics,
+          Project,
+          ClientInfo,
+          Product
       }
 }
 </script>

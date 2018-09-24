@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iframe :src="clientPage" width="100%" height="800px" frameborder="1"> </iframe>
+    <iframe :src="clientPage" width="100%" height="953px" frameborder="1"> </iframe>
       <beautiful-chat
       :participants="participants"
       :onMessageWasSent="onMessageWasSent"

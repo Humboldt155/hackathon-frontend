@@ -8,16 +8,16 @@ const urlGetActiveClients = host + 'getactiveclients/'
 const state = {
   active_clients: [],
   current_client: null,
-  clients_baskets: {
+  baskets: {
     'client1': [
-        {'product_id': '18745334', 'product_url': '"https://res.cloudinary.com/lmru/image/upload/w_200,h_150,c_pad,b_white,d_photoiscoming.png/LMCode/18745334.jpg'}
+        {'product_id': '18745334'}
      ],
      'client2': [
-        {'product_id': '14129606', 'product_url': '"https://res.cloudinary.com/lmru/image/upload/w_200,h_150,c_pad,b_white,d_photoiscoming.png/LMCode/14129606.jpg'},
-        {'product_id': '18614174', 'product_url': '"https://res.cloudinary.com/lmru/image/upload/w_200,h_150,c_pad,b_white,d_photoiscoming.png/LMCode/18614174.jpg'}
+        {'product_id': '14129606'},
+        {'product_id': '18614174'}
      ],
      'client3': [
-        {'product_id': '16372298', 'product_url': '"https://res.cloudinary.com/lmru/image/upload/w_200,h_150,c_pad,b_white,d_photoiscoming.png/LMCode/16372298.jpg'}
+        {'product_id': '16372298'}
      ]
   }
 }
