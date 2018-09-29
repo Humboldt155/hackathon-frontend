@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <section id="app">
       <!--<router-link to="/client">Client</router-link> |-->
       <!--<router-link to="/assistant">Assistant</router-link>-->
     <router-view/>
-  </div>
+  </section>
 </template>
 
 <style>

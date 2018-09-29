@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <section>
+    <b-select v-model="selected_user" placeholder="client" size="is-small" style="position: fixed">
+      <option
+              v-for="client in clients"
+              :value="client.username"
+              :key="client.username">
+        {{ client.name }}
+      </option>
+    </b-select>
     <iframe :src="clientPage" width="100%" height="953px" frameborder="1"> </iframe>
       <beautiful-chat
       :participants="participants"
@@ -14,37 +22,26 @@
       :showTypingIndicator="showTypingIndicator"
       :colors="colors"
       :alwaysScrollToBottom="alwaysScrollToBottom" />
-  </div>
+  </section>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import conversations from "../store/modules/conversations";
 
   export default {
       name: 'client',
       data() {
           return {
+              selected_user: 'client1',
               participants: [
                   {
-                      id: 'user1',
-                      name: 'Artem',
+                      id: 'assistant',
+                      name: 'Assistant',
                       imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
                   }
-              ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
-              messageList: [
-                  {type: 'text', author: `me`, data: {text: `'Hi, Artem! I try to buy a pillow, but it is not awailable on stock(( May you solve my problem?'`}},
-                  {type: 'text', author: `user1`, data: {text: `Do you meen this one?`}},
-                  {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '81945552'}},
-                  {type: 'text', author: `me`, data: {text: `Exactly!`}},
-                  {type: 'text', author: `user1`, data: {text: 'Wait a minute, please'}},
-                  {type: 'text', author: `user1`, data: {text: 'Unfortunately, there are no such pillows on stock(('}},
-                  {type: 'text', author: `user1`, data: {text: 'But there are some very similar available. Would you like to see?'}},
-                  {type: 'text', author: `user1`, data: {text: 'Yes, sure'}},
-                  {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                  {type: 'text', author: `user1`, data: {text: `Check this one`}},
-                  {type: 'file', author: `user1`, data: {text: `Pillow decorative`, name: '764', url: '17926555'}}
-              ], // the list of the messages to show, can be paginated and adjusted dynamically
+              ],
               newMessagesCount: 0,
               isChatOpen: true, // to determine whether the chat window should be open or closed
               showTypingIndicator: '', // when set to a value matching the participant.id it shows the typing indicator for the specific user
@@ -72,7 +69,8 @@ import HelloWorld from '@/components/HelloWorld.vue'
                       text: '#565867'
                   }
               }, // specifies the color scheme for the component
-              alwaysScrollToBottom: false // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+              alwaysScrollToBottom: true // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+
           }
       },
       methods: {
@@ -84,7 +82,11 @@ import HelloWorld from '@/components/HelloWorld.vue'
           },
           onMessageWasSent(message) {
               // called when the user sends a message
-              this.messageList = [...this.messageList, message]
+              // this.messageList = [...this.messageList, message]
+              let c_client = this.selected_user
+
+              // let c_client = this.selected_user
+              this.$store.commit('conversations/setMessage', [message.data.text, 'me', c_client])
           },
           openChat() {
               // called when the user clicks on the fab button to open the chat
@@ -94,12 +96,36 @@ import HelloWorld from '@/components/HelloWorld.vue'
           closeChat() {
               // called when the user clicks on the botton to close the chat
               this.isChatOpen = false
+          },
+          loadChats: function () {
+            this.$store.commit('conversations/getUserChat', this.c_client)
+          },
+          setClient (username) {
+            this.$store.commit('assistant/setClient', username)
           }
       },
       computed: {
         clientPage() {
           return this.$store.state.client.client_page
+        },
+        clients () {
+            return this.$store.state.assistant.active_clients
+        },
+        messageList () {
+            return this.$store.state.conversations.users_conversation
+        },
+        c_client () {
+            return this.selected_user
         }
+      },
+      // функция запускается каждые 2 секунды, обновляя список клиентов
+      mounted: function () {
+        this.$nextTick(function () {
+          window.setInterval(() => {
+            this.loadChats()
+            // this.setClient(this.selected_user)
+          }, 2000)
+        })
       }
   }
 </script>

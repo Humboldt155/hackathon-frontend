@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
       <br>
       <div class="columns">
           <div class="column is-one-fifth">
@@ -18,10 +18,10 @@
                         </b-table>
                     </div>
 <!------------------------------------------ КОРЗИНА АКТИВНОГО КЛИЕНТА  ---------------------------------->
-                    <div class="tile is-child box">
+                    <div class="tile is-child box is-scrollable ">
                       <p class="subtitle">{{ current_client.name.concat("\'s") }} basket</p>
-                        <table class="table">
-                            <tbody>
+                        <table class="table" style="max-height: 400px; overflow: auto">
+                            <tbody >
                                 <tr v-for="item in current_basket">
                                     <td>{{ item.product_id }}</td>
                                     <td>
@@ -103,7 +103,7 @@
                                   <project></project>
                               </b-tab-item>
                               <b-tab-item label="Map">
-                                  <map></map>
+                                  <client-map></client-map>
                               </b-tab-item>
                               <b-tab-item label="Proposal">
                                   <statistics></statistics>
@@ -130,7 +130,7 @@
       :showTypingIndicator="showTypingIndicator"
       :colors="colors"
       :alwaysScrollToBottom="alwaysScrollToBottom" />
-  </div>
+  </section>
 </template>
 
 <script>
@@ -140,28 +140,20 @@ import ClientInfo from "./ClientInfo";
 import Project from "./Project";
 import Statistics from "./Statistics";
 import Proposal from "./Proposal";
+import ClientMap from "./ClientMap";
 
   export default {
   name: 'sccistant',
   data() {
     return {
       interval: null,
+      activeTab: null,
       participants: [
         {
           id: 'user1',
           name: 'Veronika',
           imageUrl: ''
         }
-      ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
-      messageList: [
-          { type: 'text', author: `me`, data: { text: `Say yes!` } },
-          { type: 'text', author: `user1`, data: { text: `No.` } },
-          { type: 'text', author: `me`, data: { text: `Say yes!` } },
-          { type: 'text', author: `user1`, data: { text: `No.` } },
-          { type: 'text', author: `me`, data: { text: `Say yes!` } },
-          { type: 'text', author: `user1`, data: { text: `No.` } },
-          { type: 'text', author: `me`, data: { text: `Say yes!` } },
-          { type: 'text', author: `user1`, data: { text: `No.` } }
       ], // the list of the messages to show, can be paginated and adjusted dynamically
       newMessagesCount: 0,
       isChatOpen: true, // to determine whether the chat window should be open or closed
@@ -190,7 +182,7 @@ import Proposal from "./Proposal";
           text: '#565867'
         }
       }, // specifies the color scheme for the component
-      alwaysScrollToBottom: false, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+      alwaysScrollToBottom: true, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
       clients_columns: [
           {
               field: 'name',
@@ -201,15 +193,18 @@ import Proposal from "./Proposal";
     }
   },
   methods: {
-    sendMessage (text) {
+    sendMessage (text, ) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
         this.onMessageWasSent({ author: 'support', type: 'text', data: { text } })
       }
     },
     onMessageWasSent (message) {
+        // console.log(this.$store.state.assistant.current_client["username"])
+      let c_client = this.$store.state.assistant.current_client.username
+      this.$store.commit('conversations/setMessage', [message.data.text, c_client, 'me'])
       // called when the user sends a message
-      this.messageList = [ ...this.messageList, message ]
+      // this.messageList = [ ...this.messageList, message ]
     },
     openChat () {
       // called when the user clicks on the fab button to open the chat
@@ -220,21 +215,13 @@ import Proposal from "./Proposal";
       // called when the user clicks on the botton to close the chat
       this.isChatOpen = false
     },
-    loadData: function () {
-      this.$store.commit('assistant/getActiveClients')
-    },
     setClient (username) {
-      this.$store.commit('assistant/setClient', username)
-    }
-  },
-      // функция запускается каждые 2 секунды, обновляя список клиентов
-      mounted: function () {
-        this.$nextTick(function () {
-          window.setInterval(() => {
-            this.loadData()
-          }, 4000)
-        })
-      },
+          this.$store.commit('assistant/setClient', username)
+        },
+     loadChats: function () {
+          this.$store.commit('conversations/getChats')
+        },
+     },
       computed: {
         active_clients() {
             try {
@@ -263,6 +250,10 @@ import Proposal from "./Proposal";
             let c_client = this.$store.state.assistant.current_client
             let baskets = this.$store.state.assistant.baskets
             return baskets[c_client.username]
+        },
+        messageList() {
+            let c_client = this.$store.state.assistant.current_client.username
+            return this.$store.state.conversations.conversations[c_client]
         }
       },
       components: {
@@ -270,7 +261,34 @@ import Proposal from "./Proposal";
           Statistics,
           Project,
           ClientInfo,
-          Product
+          Product,
+          ClientMap
+      },
+      // функция запускается каждые 2 секунды, обновляя список клиентов
+      mounted: function () {
+        this.$nextTick(function () {
+          window.setInterval(() => {
+            this.loadChats()
+          }, 2000)
+        })
       }
 }
 </script>
+
+<style>
+
+</style>
+
+    // loadChats: function () {
+    //   this.$store.commit('conversations/getChats')
+    // },
+
+      // функция запускается каждые 2 секунды, обновляя список клиентов
+      // mounted: function () {
+      //   this.$nextTick(function () {
+      //     window.setInterval(() => {
+      //       this.loadChats()
+      //     }, 2000)
+      //   })
+      // }
+
