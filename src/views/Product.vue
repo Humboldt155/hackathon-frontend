@@ -27,9 +27,6 @@
                                   </figure>
                               </div>
                               <div class="card-content has-text-left" style="text-align: left">
-                                  <!--<p>-->
-                                    <!--<span class="subtitle is-7">probability:</span> <span class="title is-6 is-primary">{{ Math.round(current_product.probability *100) / 100 }} %</span>-->
-                                  <!--</p>-->
                                   <p>
                                       <span class="subtitle is-7">code:</span> <span class="title is-6 is-primary">{{ current_product.product }}</span>
                                   </p>
@@ -45,7 +42,6 @@
                                       <span v-else class="button">{{ current_product.product_quartile }}</span>
                                   </p>
                               </div>
-
                           </div>
                       </div>
                     </div>

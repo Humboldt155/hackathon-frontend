@@ -82,6 +82,18 @@
         computed: {
             project_models () {
                 return this.$store.state.client.project_models
+            },
+            current_product () {
+                return this.$store.state.current_product.current_product
+            },
+            current_analogs () {
+                return this.$store.state.current_product.current_analogs
+            },
+            current_quartile () {
+                return this.$store.state.assistant.current_client.quartile
+            },
+            current_complements () {
+                return this.$store.state.current_product.current_complements
             }
         }
     }
