@@ -8,6 +8,12 @@ import Buefy from 'buefy'
 Vue.use(Buefy)
 import 'buefy/dist/buefy.css'
 
+import VueCollapse from 'vue2-collapse'
+Vue.use(VueCollapse)
+
+import Collapse from 'vue-collapse'
+Vue.use(Collapse)
+
 import Chat from 'vue-beautiful-chat'
 Vue.use(Chat)
 

@@ -13,23 +13,47 @@ const urlGetUserChat = host + 'get_user_chat'
 const urlSendMessage = host + 'send_message'
 
 const state = {
-    conversations: {
+    isNegativeMessage: false,
+    current_usert_mood: 0,
+    NegativeText: '',
+    NegativePercent: '',
+    statistics: {
         client1: [
-            {type: '', author: '', data: {text: ''}}
+            {req: 0, resp: 0, type: '', text: '', code: '', mood: '', total_mood: ''}
         ],
         client2: [
-            {type: '', author: '', data: {text: ''}}
+            {req: 0, resp: 0, type: '', text: '', code: '', mood: '', total_mood: ''}
         ],
         client3: [
-            {type: '', author: '', data: {text: ''}}
+            {req: 0, resp: 0, type: '', text: '', code: '', mood: '', total_mood: ''}
         ],
         client4: [
-            {type: '', author: '', data: {text: ''}}
+            {req: 0, resp: 0, type: '', text: '', code: '', mood: '', total_mood: ''}
+        ]
+    },
+    conversations: {
+        client1: [
+            {type: '', author: '', data: {text: ''}, mood: 0, total_value: 0}
+        ],
+        client2: [
+            {type: '', author: '', data: {text: ''}, mood: 0, total_value: 0}
+        ],
+        client3: [
+            {type: '', author: '', data: {text: ''}, mood: 0, total_value: 0}
+        ],
+        client4: [
+            {type: '', author: '', data: {text: ''}, mood: 0, total_value: 0}
         ]
     },
     users_conversation: [
         {type: '', author: '', data: {text: ''}}
-    ]
+    ],
+    moods: {
+        client1: {all: [], total: 0},
+        client2: {all: [], total: 0},
+        client3: {all: [], total: 0},
+        client4: {all: [], total: 0}
+    }
 }
 
 // getters
@@ -42,6 +66,9 @@ const actions = {
 
 // mutations
 const mutations = {
+    offNegativeMessage (state) {
+        state.isNegativeMessage = false
+    },
     setMessage (state, data) {
         let username = data[1]
         let text = data[0].toString()
@@ -60,8 +87,14 @@ const mutations = {
                 }
             })
               .then(resp => {
-                  let conversations = resp.data
-                  state.conversations = conversations
+                  let response = resp.data
+                  if (!response.accepted) {
+                      // console.log(response)
+                      state.isNegativeMessage = true
+                      state.NegativeText = response.text
+                      state.NegativePercent = response.neg
+                  }
+                  // state.conversations = conversations
               })
               .catch(err => {
                 console.log(err)

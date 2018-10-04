@@ -10,7 +10,7 @@
         name: "client-map",
         data () {
             return {
-                src_frame: "http://52.191.11.99/en-US/embed?s=%2FservicesNS%2Fadmin%2Flm_geo_analytics%2Fsaved%2Fsearches%2Ftest_map&oid=4n32YNAQ7BecH3ZGrFreT4RxgemcZLrMLRLJiSNKM9UuiKTij_iRPoiRoeM47vypkZow0DtDAO_R6ugUizV6r593la9Ij44BwhqEkTfmbj9WWeZhpahaBqkUEHjT7K1NiY5LB6yQjbjXwH_GGN"
+                src_frame: "http://52.191.11.99/en-US/embed?s=%2FservicesNS%2Fadmin%2Fsearch%2Fsaved%2Fsearches%2Fgeo_hackathon&oid=5ICR8ghZ%5Eom6JVjnisTcHc9r71QaPPGm%5Evb8YFVFPfgIdq6ZQuQ%5EanGrnIPoFL5D5FqXGrQO7GfJFNC%5EqM_cqBVZ9IkmVh4rHYn6kSC0vQIWHgHygcVlunmkEUTkPkNm9Hjs4o"
             }
         }
     }

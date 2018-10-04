@@ -7,7 +7,7 @@
         <b-modal :active.sync="isCardModalActive" :width="960" scroll="keep">
             <div class="box" style="min-width: 90%; min-height: 90%; position: fixed; left: 5%; top: 5%">
                 <div class="media-content">
-                    <p class="title is-4">Nail</p>
+                    <p class="title is-4">Veronika's</p>
                     <p class="subtitle is-6">project</p>
                     <div class="field is-grouped">
                         <div v-for="c in colors_l">

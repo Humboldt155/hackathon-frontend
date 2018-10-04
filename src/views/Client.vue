@@ -98,7 +98,7 @@ import conversations from "../store/modules/conversations";
               this.isChatOpen = false
           },
           loadChats: function () {
-            this.$store.commit('conversations/getUserChat', this.c_client)
+            this.$store.commit('conversations/getUserChat', this.selected_user)
           },
           setClient (username) {
             this.$store.commit('assistant/setClient', username)
@@ -113,10 +113,10 @@ import conversations from "../store/modules/conversations";
         },
         messageList () {
             return this.$store.state.conversations.users_conversation
-        },
-        c_client () {
-            return this.selected_user
         }
+        // c_client () {
+        //     return this.selected_user
+        // }
       },
       // функция запускается каждые 2 секунды, обновляя список клиентов
       mounted: function () {
